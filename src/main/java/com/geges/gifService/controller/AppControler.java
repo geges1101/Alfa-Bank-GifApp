@@ -39,7 +39,7 @@ public class AppControler {
 
      //Возвращает доступные валюты
     @GetMapping("/getcodes")
-    public Set<String> getValues() {
+    public List<String> getValues() {
         return ratesInterface.getRates();
     }
 

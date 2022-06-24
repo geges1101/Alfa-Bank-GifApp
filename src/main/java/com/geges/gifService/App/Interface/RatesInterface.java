@@ -1,5 +1,6 @@
 package com.geges.gifService.App.Interface;
 
+import java.util.List;
 import java.util.Set;
 
 public interface RatesInterface {
@@ -8,5 +9,5 @@ public interface RatesInterface {
 
     void updateRates();
 
-    Set<String> getRates();
+    List<String> getRates();
 }
