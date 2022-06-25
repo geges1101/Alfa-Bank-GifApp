@@ -8,23 +8,15 @@ import java.text.SimpleDateFormat;
 @Configuration
 public class AppConfig {
 
-    /**
-     * Для преобразования к строке с точностью до дня.
-     *
-     * @return
-     */
+    //Преобразование даты с точностью до дня
     @Bean("date_bean")
-    public SimpleDateFormat simpleDateFormatForDate() {
+    public SimpleDateFormat formatDate() {
         return new SimpleDateFormat("yyyy-MM-dd");
     }
 
-    /**
-     * Для преобразования к строке с точностью до часа.
-     *
-     * @return
-     */
+    //Преобразование даты с точностью до часа
     @Bean("time_bean")
-    public SimpleDateFormat simpleDateFormatForTime() {
+    public SimpleDateFormat formatTime() {
         return new SimpleDateFormat("yyyy-MM-dd HH");
     }
 

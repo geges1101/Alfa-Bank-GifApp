@@ -13,7 +13,7 @@ public interface FeignGiphyClient extends GifClient{
 
     @Override
     @GetMapping("/random")
-    ResponseEntity<Map> getRandomGif(
+    ResponseEntity<Map> getNextGif(
             @RequestParam("api_key") String apiKey,
             @RequestParam("tag") String tag
     );

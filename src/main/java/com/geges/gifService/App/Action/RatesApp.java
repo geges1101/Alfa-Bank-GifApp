@@ -41,13 +41,30 @@ public class RatesApp implements RatesInterface {
 
     @Override
     public int getKey(String code) {
-        return 0;
+        this.updateRates();
+        Double prevCoefficient = this.calculateRate(this.prevRates, code);
+        Double currentCoefficient = this.calculateRate(this.currRates, code);
+        return prevCoefficient != null && currentCoefficient != null
+                ? Double.compare(currentCoefficient, prevCoefficient)
+                : -101;
     }
 
     //Обновление котировок
     @Override
     public void updateRates() {
         long currTime = System.currentTimeMillis();
+        this.(currentTime);
+        this.refreshPrevRates(currentTime);
+    }
+
+    private void updateCurrentRates(long time) {
+        if (
+                this.currRates == null ||
+                        !timeFormat.format(Long.valueOf(this.currentRates.getTimestamp()) * 1000)
+                                .equals(timeFormat.format(time))
+        ) {
+            this.currentRates = openExchangeRatesClient.getLatestRates(this.appId);
+        }
     }
 
     //Получкеие доступных котировок валют
@@ -73,7 +90,9 @@ public class RatesApp implements RatesInterface {
         }
     }
 
-    private Double getCoefficient(Rates rates, String code){
+    //Определение курса в отношении к валютным базам, округление значений
+
+    private Double calculateRate(Rates rates, String code){
         Double result = null;
         Double targetRate = null;
         Double appRate = null;
@@ -94,7 +113,7 @@ public class RatesApp implements RatesInterface {
             result = new BigDecimal(
                     (defaultRate / appRate) * targetRate
             )
-                    .setScale(4, RoundingMode.UP)
+                    .setScale(2, RoundingMode.UP)
                     .doubleValue();
         }
         return result;
