@@ -18,13 +18,13 @@ import java.util.Set;
 @RequestMapping("/gg")
 public class AppControler {
     private RatesInterface ratesInterface;
-    private GifInterface gifService;
+    private GifInterface gifInterface;
     @Value("${giphy.rich}")
     private String richTag;
     @Value("${giphy.poor}")
     private String poorTag;
     @Value("${giphy.zero}")
-    private String whatTag;
+    private String nonetag;
     @Value("${giphy.error}")
     private String errorTag;
 
@@ -34,22 +34,16 @@ public class AppControler {
             GifInterface gifInterface
     ) {
         this.ratesInterface = ratesInterface;
-        this.gifService = gifService;
+        this.gifInterface = gifInterface;
     }
 
      //Возвращает доступные валюты
     @GetMapping("/getcodes")
-    public Set<String> getValues() {
+    public List<String> getValues() {
         return ratesInterface.getRates();
     }
 
-    /**
-     * Получает гифку для отправки клиенту
-     * исходя из резултата сравнения курса в openExchangeRatesService
-     *
-     * @param code
-     * @return
-     */
+    //Возвращает гифку отталкиваясь от изменения курса
     @GetMapping("/getgif/{code}")
     public ResponseEntity<Map> getGif(@PathVariable String code) {
         ResponseEntity<Map> result = null;
@@ -66,10 +60,10 @@ public class AppControler {
                 gifTag = this.poorTag;
                 break;
             case 0:
-                gifTag = this.whatTag;
+                gifTag = this.nonetag;
                 break;
         }
-        result = gifService.getGif(gifTag);
+        result = gifInterface.getGif(gifTag);
         return result;
     }
 }
